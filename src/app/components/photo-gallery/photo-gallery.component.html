@@ -1,0 +1,66 @@
+<div class="photo-gallery-bg">
+  <div class="photo-gallery-card">
+    <h2>Galería de Fotos</h2>
+    <div class="upload-section">
+      <div *ngIf="isUploading" class="gallery-loading">
+        <span class="loader"></span> Subiendo fotos...
+      </div>
+      <div *ngIf="uploadMessage && uploadMessage === 'Por favor ingresa tu nombre antes de subir fotos.'" class="gallery-message error">{{ uploadMessage }}</div>
+      <div *ngIf="uploadMessage && uploadMessage !== 'Por favor ingresa tu nombre antes de subir fotos.'" class="gallery-message success">{{ uploadMessage }}</div>
+      <label class="custom-file-upload">
+        <input type="file" accept="image/*" multiple (change)="onFileSelected($event)" />
+        Seleccionar fotos
+      </label>
+      <mat-form-field appearance="outline">
+        <mat-label>Tu nombre</mat-label>
+        <input matInput [(ngModel)]="uploadedBy" placeholder="Nombre" />
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="upload()"
+        [disabled]="!selectedFiles.length || !uploadedBy"
+        class="upload-btn"
+      >
+        Subir {{ selectedFiles.length > 1 ? 'Fotos' : 'Foto' }}
+      </button>
+      <div *ngIf="selectedFiles.length > 0" class="selected-count">
+        {{ selectedFiles.length }} foto{{ selectedFiles.length > 1 ? 's' : '' }} seleccionada{{ selectedFiles.length > 1 ? 's' : '' }}
+      </div>
+    </div>
+    <div class="filter-section">
+      <mat-form-field appearance="outline">
+        <mat-label>Filtrar por nombre</mat-label>
+        <mat-select [(ngModel)]="filterName" placeholder="Selecciona un nombre">
+          <mat-option value="">Todos</mat-option>
+          <mat-option *ngFor="let name of uploaderNames" [value]="name">{{ name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="collage-grid">
+      <div *ngFor="let photo of filteredPhotos; let i = index" class="collage-item" [ngClass]="getCollageClass(i, photo)">
+        <img [src]="photo.url" alt="Foto de la boda" (click)="openLightbox(i)" loading="lazy" />
+      </div>
+    </div>
+
+    <div class="lightbox" *ngIf="lightboxOpen">
+      <div *ngIf="deleteMessage" class="gallery-message delete">{{ deleteMessage }}</div>
+      <div class="lightbox-backdrop" (click)="closeLightbox()"></div>
+      <div class="lightbox-content">
+        <button class="lightbox-close" (click)="closeLightbox()">&times;</button>
+        <button class="lightbox-nav left" (click)="prevPhoto()" [disabled]="lightboxIndex === 0">&#8592;</button>
+        <img [src]="filteredPhotos[lightboxIndex]?.url" [alt]="filteredPhotos[lightboxIndex]?.uploadedBy" class="lightbox-img" loading="lazy" />
+        <button class="lightbox-nav right" (click)="nextPhoto()" [disabled]="lightboxIndex === filteredPhotos.length - 1">&#8594;</button>
+        <div class="lightbox-caption">
+          Subido por: <span>{{ filteredPhotos[lightboxIndex]?.uploadedBy }}</span>
+          <button mat-stroked-button (click)="delete(filteredPhotos[lightboxIndex])">Eliminar</button>
+          <button class="download-btn icon" (click)="downloadImage(filteredPhotos[lightboxIndex]?.url)">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#999b88" stroke-width="2">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+  </svg>
+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+
+/* Paleta principal */
+:root {
+  --primary-color: #999b88; /* Verde base, ahora fondo */
+  --secondary-color: #bfc2a8; /* Verde claro pastel */
+  --accent-color: #e6e7d8; /* Verde muy claro para detalles */
+  --background-color: #999b88; /* Fondo principal */
+  --text-color: #22231c; /* Verde gris oscuro para contraste y legibilidad */
+}
+
+html, body { height: 100%; background: var(--background-color); }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; color: var(--text-color); background: var(--background-color); }
