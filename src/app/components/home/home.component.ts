@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
 countdown: string = '';
 
   ngOnInit() {
-    const targetDate = new Date('2025-08-09T10:00:00').getTime();
+    const targetDate = new Date('2027-08-09T10:00:00').getTime();
     setInterval(() => {
       const now = new Date().getTime();
       const distance = targetDate - now;

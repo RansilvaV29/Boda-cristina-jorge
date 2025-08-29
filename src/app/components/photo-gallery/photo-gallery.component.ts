@@ -16,6 +16,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './photo-gallery.component.css'
 })
 export class PhotoGalleryComponent implements OnInit {
+  goToWeb() {
+    window.open('https://frontend-visorfotos.onrender.com/', '_blank');
+  }
   downloadImage(url: string) {
     const link = document.createElement('a');
     link.href = url;

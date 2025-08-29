@@ -1,6 +1,14 @@
 <div class="photo-gallery-bg">
   <div class="photo-gallery-card">
     <h2>Galería de Fotos</h2>
+    <button
+        mat-raised-button
+        color="primary"
+        class="upload-btn"
+        (click)="goToWeb()"
+      >
+        Click aquí para escanear tu cara y buscar las fotos en las que apareces
+      </button>
     <div class="upload-section">
       <div *ngIf="isUploading" class="gallery-loading">
         <span class="loader"></span> Subiendo fotos...
@@ -11,7 +19,7 @@
         <input type="file" accept="image/*" multiple (change)="onFileSelected($event)" />
         Seleccionar fotos
       </label>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="name-input">
         <mat-label>Tu nombre</mat-label>
         <input matInput [(ngModel)]="uploadedBy" placeholder="Nombre" />
       </mat-form-field>
@@ -27,6 +35,7 @@
       <div *ngIf="selectedFiles.length > 0" class="selected-count">
         {{ selectedFiles.length }} foto{{ selectedFiles.length > 1 ? 's' : '' }} seleccionada{{ selectedFiles.length > 1 ? 's' : '' }}
       </div>
+      
     </div>
     <div class="filter-section">
       <mat-form-field appearance="outline">
@@ -44,6 +53,8 @@
     </div>
 
     <div class="lightbox" *ngIf="lightboxOpen">
+
+
       <div *ngIf="deleteMessage" class="gallery-message delete">{{ deleteMessage }}</div>
       <div class="lightbox-backdrop" (click)="closeLightbox()"></div>
       <div class="lightbox-content">
@@ -53,7 +64,7 @@
         <button class="lightbox-nav right" (click)="nextPhoto()" [disabled]="lightboxIndex === filteredPhotos.length - 1">&#8594;</button>
         <div class="lightbox-caption">
           Subido por: <span>{{ filteredPhotos[lightboxIndex]?.uploadedBy }}</span>
-          <button mat-stroked-button (click)="delete(filteredPhotos[lightboxIndex])">Eliminar</button>
+          <!-- <button mat-stroked-button (click)="delete(filteredPhotos[lightboxIndex])">Eliminar</button> -->
           <button class="download-btn icon" (click)="downloadImage(filteredPhotos[lightboxIndex]?.url)">
   <svg viewBox="0 0 24 24" fill="none" stroke="#999b88" stroke-width="2">
     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
